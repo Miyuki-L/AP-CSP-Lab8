@@ -40,7 +40,35 @@ def largest_prime_factor(n):
     """Project Euler Problem 3: Largest Prime Factor
     The prime factors of 13195 are 5, 7, 13 and 29.What is the largest prime factor of the number 600851475143 ?
     where n is an int and the number whose largest factor you are looking for. """
-    pass
+    """ Andrews proposal to optimization.
+    arostcles steive. set of number. mark all number that is not prime. testing square root of the number. appro
+    aristosines seive method. take out multiples of 3 5 7 2 11. get to NOT squre but half of the largest number. can't be greater than half the largest number
+    another vernbe prieme number determination
+    recursion method to break down prime numbers. 
+    Miller Rabin. 
+    Pollard -rho """
+    #let primelist be a starting list of basic, don't need two in the list as it could be easily controlled by itteration
+    primelist=[3]
+    #is prime num starts at five since 4 is even and not prime 
+    is_prime_num = 5
+
+    while is_prime_num < n:
+        #checks if the is_prime number is a prime or not. 
+        if prime_check(is_prime_num,primelist) == True:
+            # add it to the list of primes 
+            primelist = primelist + [is_prime_num]
+            #sees if its factor
+            if n%is_prime_num ==0:
+                #set equal to largest prime factor. 
+                prime_factor = is_prime_num
+        #increase by 2 so it avoids all even numbers since they aren't prime
+        is_prime_num +=2
+    
+    return prime_factor
+
+print(largest_prime_factor(13195))
+
+
 
 
 
