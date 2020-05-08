@@ -51,8 +51,8 @@ def largest_prime_factor(n):
     primelist=[3]
     #is prime num starts at five since 4 is even and not prime 
     is_prime_num = 5
-
-    while is_prime_num < n:
+    #Until half of the number since factors are all in pairs and the pair greater than 2 and half the number is 1 times the number. 
+    while is_prime_num < n/2:
         #checks if the is_prime number is a prime or not. 
         if prime_check(is_prime_num,primelist) == True:
             # add it to the list of primes 
@@ -66,7 +66,62 @@ def largest_prime_factor(n):
     
     return prime_factor
 
-print(largest_prime_factor(13195))
+#print(largest_prime_factor(600851475143))
+
+def largest_prime_factor_v2(num):
+    """Project Euler Problem 3"""
+    """Since you want factors then start determining the parinings. once you found a pair then there is nothing else that 
+    facters perfect. e.g betweing pairing with 1 and pairng with 2 there is is not one between 1 and two that factors nicely. 
+    There for once you found that something is divisible by something then worked on the dividend.
+    Think Tree diagram learned solution from https://www.youtube.com/watch?v=InvK8aZ-dQA"""
+    #Base divisor is 2 since everything is dividable by 1
+    divisor = 2
+    #divisor can't be bigger than the number since I'll be a fraction.
+    while divisor < num:
+        #see if num has factors
+        if num%divisor ==0:
+            #start working on its pairing since there won't be any other interger factor that works bigger than the pair of the one with 2
+            num = num/divisor
+            #reset the divisor
+            divisor = 2
+        # the divisor is not an factor so move up to the next interger divisor 
+        else:
+            divisor += 1
+    return num
+# print (largest_prime_factor_v2(600851475143))
+
+#import sqrt for smallest multiple question
+from math import sqrt
+
+def smallest_multiple(upper_limit):
+    """Project Euler Problem number 5
+    2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+    What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+    
+    perosnal brut force test method found that if the number is a perferct square of a number then have to had it to the list of multiples.
+    Thinking behind: think if the range of multiples you need as a word bank. You only get to use that number once each
+    time in dividing. So if its a perfect square or cube of a number you have to use that number twice but you can only use it 
+    once. So that number has to be included in the products list.
+    want everything that is prime or square of a number under the limit.  """
+    #list of multiples that needs to be multiplied together in the end to get the desired number
+    multiple_list =[]
+    #starting multiple
+    multiple = 2
+    #divisor to check if it is a multiple of other numbers below
+    divisor = 2
+    while multiple < upper_limit:
+        # blank in blank can be check to see if in list
+        #blank.is_integer() can check if integer. 
+        #squares automattically counts
+        #check if it is a multiple of something
+        while divisor < multiple:
+            if multiple % divisor == 0:
+                divisor=2
+
+        #maybe for loop instead?
+
+        
+
 
 
 
