@@ -90,9 +90,6 @@ def largest_prime_factor_v2(num):
     return num
 # print (largest_prime_factor_v2(600851475143))
 
-#import sqrt for smallest multiple question
-from math import sqrt
-
 def smallest_multiple(upper_limit):
     """Project Euler Problem number 5
     2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
@@ -102,27 +99,43 @@ def smallest_multiple(upper_limit):
     Thinking behind: think if the range of multiples you need as a word bank. You only get to use that number once each
     time in dividing. So if its a perfect square or cube of a number you have to use that number twice but you can only use it 
     once. So that number has to be included in the products list.
-    want everything that is prime or square of a number under the limit.  """
+    want everything that is prime or square of a number under the limit.
+    Solution number 232792560  """
     #list of multiples that needs to be multiplied together in the end to get the desired number
     multiple_list =[]
     #starting multiple
     multiple = 2
-    #divisor to check if it is a multiple of other numbers below
-    divisor = 2
+    #loop to find the primes under the upperlimit
     while multiple < upper_limit:
-        # blank in blank can be check to see if in list
-        #blank.is_integer() can check if integer. 
-        #squares automattically counts
-        #check if it is a multiple of something
-        while divisor < multiple:
-            if multiple % divisor == 0:
-                divisor=2
+        #find primes. add to Multiple list. Alright if the list has non primes since it not looking for primes
+        if prime_check(multiple,multiple_list):
+            multiple_list= multiple_list + [multiple]
 
-        #maybe for loop instead?
+        exponent=2
+        #prevent things like 2^4 added and 4^2 added which makes thing doubled.
+        powers_added = []
+        #checks if the number to a certain power is w/in the boundary
+        while multiple**exponent <upper_limit:
+            #make sure it that power hasn't been added 
+            if multiple**exponent in powers_added == False:
+                #add one more of the factor to the list since to create n^2 you need to have 2 n's in your "word bank"
+                multiple_list = multiple_list + [multiple]
+                powers_added = powers_added + [multiple**exponent]
+            exponent += 1  
+        multiple += 1
+        #without the powers added thing the number was 4 time greater than the solution. with it took out all the multiples needed.
+
+    #multiply up all the multiples.
+    total = 1
+
+    for num in multiple_list:
+        total = total*num
+        
+    return total, multiple_list, powers_added
+    #adding the squares to the list
+print(smallest_multiple(20))
 
         
-
-
 
 
 
