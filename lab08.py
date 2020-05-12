@@ -105,22 +105,23 @@ def smallest_multiple(upper_limit):
     multiple_list =[]
     #starting multiple
     multiple = 2
-    #loop to find the primes under the upperlimit
+
+    #prevent things like 2^4 added and 4^2 added which makes thing doubled.
+    powers_added = []
+    #loop to find the primes under the upperlimit    
     while multiple < upper_limit:
         #find primes. add to Multiple list. Alright if the list has non primes since it not looking for primes
         if prime_check(multiple,multiple_list):
             multiple_list= multiple_list + [multiple]
 
         exponent=2
-        #prevent things like 2^4 added and 4^2 added which makes thing doubled.
-        powers_added = []
         #checks if the number to a certain power is w/in the boundary
         while multiple**exponent <upper_limit:
             #make sure it that power hasn't been added 
-            if multiple**exponent in powers_added == False:
+            if (multiple**exponent in powers_added) == False:
                 #add one more of the factor to the list since to create n^2 you need to have 2 n's in your "word bank"
                 multiple_list = multiple_list + [multiple]
-                powers_added = powers_added + [multiple**exponent]
+                powers_added = powers_added + [(multiple**exponent)]
             exponent += 1  
         multiple += 1
         #without the powers added thing the number was 4 time greater than the solution. with it took out all the multiples needed.
@@ -133,7 +134,71 @@ def smallest_multiple(upper_limit):
         
     return total, multiple_list, powers_added
     #adding the squares to the list
-print(smallest_multiple(20))
+#print(smallest_multiple(20))
+
+def create_list(ul, ll=1):
+    """Creates a list of all the natural numbers between the lower limit ll if not stated would be one. until 
+    the upper limit"""
+    return list(range(ll,ul+1))
+
+def sum_square_difference(n):
+    """Project Euler Problem 6
+    The sum of the squares of the first ten natural numbers is,1^2+2^2+...+102=385The square of the sum of 
+    the first ten natural numbers is,(1+2+...+10)^2=552=3025. Hence the difference between the sum of the squares 
+    of the first ten natural numbers and the square of the sum is 3025−385=2640.Find the difference between the
+    sum of the squares of the first one hundred natural numbers and the square of the sum
+    where n is the upper limit of numbers """
+    #sums up all the numbers then squares it
+    sum_squared = (sum(create_list(n)))**2
+
+    # sum of all the numbers first squared then summed.
+    squared_sum = 0
+    #loops over every number 
+    for num in create_list(n):
+        squared_sum += num**2
+
+    #return the difference between the squares
+    return sum_squared - squared_sum
+
+#print (sum_square_difference(100))
+
+def collatz_sequence(start):
+    """Part of Project Euler Problem 14
+    The following iterative sequence is defined for the set of positive integers:
+    n → n/2 (n is even)
+    n → 3n + 1 (n is odd)
+    Using the rule above and starting with 13, we generate the following sequence:
+    13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+    It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not
+    been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1. Which starting number,
+    under one million, produces the longest chain? 
+    NOTE: Once the chain starts the terms are allowed to go above one million."""
+    #let num = upper so that we keep a upper as is 
+    num = start
+    #let terms be the number of terms so we'll know how many terms are in the chain
+    terms = 0
+    sequence = []
+    while num > 1:
+        #list of the numbers in the sequense
+        sequence.append(num)
+        #if even divide by to
+        if num%2==0:
+            num=int(num/2)
+        #odd then add the number times 3 plus one.
+        else:
+            num = num*3 +1
+        terms += 1
+    return sequence, terms, start
+
+print(longest_collatz_sequence(13))
+
+def longest_collatz_sequence(upper):
+    """Project Euler Problem 14 
+    Although it has not
+    been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1. Which starting number,
+    under one million, produces the longest chain? 
+    NOTE: Once the chain starts the terms are allowed to go above one million."""
+    
 
         
 
