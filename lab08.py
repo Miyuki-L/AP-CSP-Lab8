@@ -162,7 +162,7 @@ def sum_square_difference(n):
 
 #print (sum_square_difference(100))
 
-def collatz_sequence(start):
+def collatz_sequence(start,dict={}):
     """Part of Project Euler Problem 14
     The following iterative sequence is defined for the set of positive integers:
     n → n/2 (n is even)
@@ -175,30 +175,67 @@ def collatz_sequence(start):
     NOTE: Once the chain starts the terms are allowed to go above one million."""
     #let num = upper so that we keep a upper as is 
     num = start
-    #let terms be the number of terms so we'll know how many terms are in the chain
-    terms = 0
+    #let terms be the number of steps so we'll know how many steps are in the chain
+    steps = 0
     sequence = []
     while num > 1:
         #list of the numbers in the sequense
         sequence.append(num)
-        #if even divide by to
+        #checks if the number is in the dictionary 
+        #if even
         if num%2==0:
+            #add to dictionary where keeps number of steps and the number
             num=int(num/2)
         #odd then add the number times 3 plus one.
         else:
             num = num*3 +1
-        terms += 1
-    return sequence, terms, start
-
-print(longest_collatz_sequence(13))
+        steps += 1
+    return sequence, steps, start
 
 def longest_collatz_sequence(upper):
     """Project Euler Problem 14 
     Although it has not
     been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1. Which starting number,
     under one million, produces the longest chain? 
-    NOTE: Once the chain starts the terms are allowed to go above one million."""
-    
+    NOTE: Once the chain starts the terms are allowed to go above one million.
+    maybe use recursion and dict change the terms into steps again. and then just add steps if already did the number"""
+    longest_collatz=0
+    start_num=0
+    num = 2
+    while num < upper:
+        #checks if the sequence has a longer chain
+        if longest_collatz < collatz_memoized(num):
+            #store the number of steps and which number it was 
+            longest_collatz = collatz_memoized(num)
+            start_num = num
+        num +=1
+    return start_num
+
+def collatz_memoized(start,dict={}):
+    steps = 0
+    num = start
+    #checks if in dictionary
+    if start in dict:
+        return dict[start]
+    else:
+        while num > 1:
+            #checks if in dictionary 
+            if num in dict:
+                #if its in the dicitonary add the steps and end it
+                return steps + dict[num]
+            #if even
+            if num%2 == 0:
+                num = int(num/2)
+            #if odd
+            else: 
+                num = num*3 + 1
+            steps += 1
+        #store in dictionary. 
+        dict[start] = steps 
+        return dict[start]
+#print(collatz_memoized(13))
+print(longest_collatz_sequence(1000000))
+
 
         
 
